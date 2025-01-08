@@ -2,7 +2,7 @@
 
 function App() {
   return (
-    <>Hello Nigga</>
+    <>Hello Behen ki Lodi</>
   );
 }
 
