@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Menu.css";
+import Navbar from "../../Components/Navbar/Navbar";
 
 const Menu = ({ addToCart }) => {
     const [items, setItems] = useState([]);
@@ -46,36 +47,39 @@ const Menu = ({ addToCart }) => {
     if (error) return <div>{error}</div>;
 
     return (
-        <div className="food-menu">
-            <h2>Food Menu</h2>
-            <div className="menu-items">
-                {items.map((item) => (
-                    <div className="menu-item-card" key={item._id}>
-                        <div className="item-details">
-                            <h3>{item.name}</h3>
-                            <p className="price">₹{item.price}</p>
-                            <p className="rating">⭐ {item.rating} ({item.reviews})</p>
-                            <p className="description">{item.description}</p>
-                        </div>
-                        <div className="item-image">
-                            <img src={item.image} alt={item.name} />
-                            <div className="quantity-controls">
-                                {quantities[item._id] > 0 ? (
-                                    <>
-                                        <button onClick={() => decreaseQuantity(item._id)}>-</button>
-                                        <span>{quantities[item._id]}</span>
-                                    </>
-                                ) : (
-                                    <button onClick={() => handleAddToCart(item)}>ADD</button>
-                                )}
+        <div>
+            <Navbar />
+            <div className="food-menu">
+                <h2>Food Menu</h2>
+                <div className="menu-items">
+                    {items.map((item) => (
+                        <div className="menu-item-card" key={item._id}>
+                            <div className="item-details">
+                                <h3>{item.name}</h3>
+                                <p className="price">₹{item.price}</p>
+                                <p className="rating">⭐ {item.rating} ({item.reviews})</p>
+                                <p className="description">{item.description}</p>
+                            </div>
+                            <div className="item-image">
+                                <img src={item.image} alt={item.name} />
+                                <div className="quantity-controls">
+                                    {quantities[item._id] > 0 ? (
+                                        <>
+                                            <button onClick={() => decreaseQuantity(item._id)}>-</button>
+                                            <span>{quantities[item._id]}</span>
+                                        </>
+                                    ) : (
+                                        <button onClick={() => handleAddToCart(item)}>ADD</button>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+                <button onClick={() => navigate("/cart")} className="go-to-cart-button">
+                    Go to Cart
+                </button>
             </div>
-            <button onClick={() => navigate("/cart")} className="go-to-cart-button">
-                Go to Cart
-            </button>
         </div>
     );
 };
