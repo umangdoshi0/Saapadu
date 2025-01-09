@@ -25,18 +25,26 @@
 
 .menu-items {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
     gap: 20px;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 .menu-item-card {
-    width: 200px;
+    display: flex;
+    width: 840px;
     border: 1px solid #ddd;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
+}
+
+.item-details
+{
+    line-height: 30px;
+    flex-grow: 4;
 }
 
 .menu-item-card:hover {
