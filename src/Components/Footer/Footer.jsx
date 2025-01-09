@@ -1,8 +1,9 @@
 import React from "react";
 import "./Footer.css";
-import Text from "../Navbar/Logo/Text/Text";
+import Logo from "../Navbar/Logo/Logo";
+// import Text from "../Navbar/Logo/Text/Text";
 // import Image from "../Navbar/Logo/Image/Image";
-import logo from "../../Assests/logo.png";
+// import logo from "../../Assests/logo.png";
 
 function Footer() {
   return (
@@ -10,8 +11,9 @@ function Footer() {
       {/* <hr /> */}
       <footer className="footer">
           <div className="heading">
-            <img src={logo} alt="logo" style={{width:110}}/>
-            <h3 style={{fontSize:20}}><Text /></h3>
+            {/* <img src={logo} alt="logo" style={{width:110}}/>
+            <h3 style={{fontSize:20}}></h3> */}
+            <Logo/>
           </div>
           <div className="section">
             <div className="footer-section">
