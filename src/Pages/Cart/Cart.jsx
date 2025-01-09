@@ -19,14 +19,14 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
         <div>
             <Navbar />
             <div className="checkout-wrapper">
-                <nav>
+                {/* <nav>
                     <div className="navbar-logo">
                         <h1>VIT Sapaadu</h1>
-                    </div>
+                    </div> */}
                     {/* <div className="navbar-user">
                     <button onClick={handleAccountClick} type="submit" className="user-button" name="user-button"><FaUser className="icon" />USER</button>
                 </div> */}
-                </nav>
+                {/* </nav> */}
                 <div className="checkout-container">
                     <h2 className="checkout-title">Checkout</h2>
                     {cartItems.length === 0 ? (

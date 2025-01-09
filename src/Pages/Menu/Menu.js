@@ -55,7 +55,7 @@ const Menu = ({ addToCart }) => {
                     {items.map((item) => (
                         <div className="menu-item-card" key={item._id}>
                             <div className="item-details">
-                                <h3>{item.name}</h3>
+                                <h3 className="item-name">{item.name}</h3>
                                 <p className="price">₹{item.price}</p>
                                 <p className="rating">⭐ {item.rating} ({item.reviews})</p>
                                 <p className="description">{item.description}</p>

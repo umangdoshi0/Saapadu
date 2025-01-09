@@ -1,0 +1,17 @@
+.size img {
+    height: 50px;
+    /* max-width: 100%;
+    max-height: 100%; */
+}
+
+.text {
+    font-style: italic;
+    padding-left: 7px;
+}
+
+a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+}
