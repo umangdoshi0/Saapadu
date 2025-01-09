@@ -93,6 +93,28 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// MOngoDB fetch menu model
+const Menu = mongoose.model('fooditems', new mongoose.Schema({
+    name: String,
+    price: Number,
+    rating: Number,
+    reviews: Number,
+    description: String,
+    image: String
+}));
+
+// Route to fetch all food items in menu
+app.get('/api/items', async (req, res) => {
+    console.log("Fetching food items...");  // Add logging for debugging
+    try {
+        const items = await Menu.find();
+        res.json(items);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 // Start the Express server
 const PORT = process.env.PORT || 5000; // Use environment variable for port
