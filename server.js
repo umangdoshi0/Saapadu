@@ -74,18 +74,18 @@ app.post('/login', async (req, res) => {
         // Find the user by registration number
         const user = await User.findOne({ regNo });
         if (!user) {
-            return res.status(400).json({ error: 'Invalid credentials' });
+            return res.status(400).json({ error: 'Invalid Username' });
         }
 
         // Check if password matches
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid credentials' });
+            return res.status(400).json({ error: 'Invalid Password' });
         }
 
         // Generate JWT token
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+        req.session.regNo = regNo;
         return res.status(200).json({ message: 'Login successful', token });
     } catch (err) {
         console.error(err);

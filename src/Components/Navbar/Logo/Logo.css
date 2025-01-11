@@ -5,11 +5,10 @@
 }
 
 .text {
-    font-style: italic;
     padding-left: 7px;
 }
 
-a{
+div .logo {
     display: flex;
     align-items: center;
     text-decoration: none;
