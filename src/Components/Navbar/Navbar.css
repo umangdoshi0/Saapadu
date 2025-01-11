@@ -5,9 +5,9 @@
     background-color: #ffffff;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(34, 33, 33, 0.24);
-    /* margin-left: 10px; */
-    /* margin-right: 10px; */
-    /* margin-top: 10px; */
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
     border-radius: 45px;
     height: 55px;
 }

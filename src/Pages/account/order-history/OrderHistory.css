@@ -1,0 +1,17 @@
+.order-history {
+    width: 50%;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.order-history ul {
+    list-style: none;
+    padding: 0;
+}
+
+.order-history li {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
