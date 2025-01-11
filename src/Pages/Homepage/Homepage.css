@@ -28,6 +28,7 @@
     scroll-behavior: smooth;
     overflow-x: hidden;
     scroll-snap-type: x mandatory;
+    cursor: pointer;
 
 }
 
