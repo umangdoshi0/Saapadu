@@ -15,21 +15,20 @@
 
 .checkout-container{
   background-color:#b9b8b8;
+  min-height: 100vh;
+}
+.checkout{
+  margin-top: 55px;
 }
 .checkout-title {
   font-size: 28px;
   margin-bottom: 20px;
 }
 .checkout-wrapper {
-  /* margin: auto; */
-  /* min-height: 100vh; */
-  margin: 10px 0;
   padding: 40px;
   max-width: 600px;
   margin: auto;
   font-family: Arial, sans-serif;
-
-  /* width:fit-content; */
   background-color:#fff;
  
 }

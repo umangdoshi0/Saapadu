@@ -19,31 +19,9 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
   return (
     <div className="checkout-container">
       <Navbar />
+      <div className="checkout">
       <div className="checkout-wrapper">
         <h2 className="checkout-title">Checkout</h2>
-        {/* <div className="restaurants-details">
-                    {cartItems.length === 0 ? (
-                        <p>Your cart is empty.</p>
-                    ) : (
-                        cartItems.map(item => (
-                            <div key={item._id} className="cart-item">
-                                <img src={item.image} alt={item.name} />
-                                <h3>Rest Name</h3>
-                                <h3>{item.name}</h3>
-                                <p>Price: ₹{item.price}</p>
-                                <p>Quantity: {item.quantity}</p>
-                                <button onClick={() => updateItemQuantity(item._id, item.quantity + 1)}>+</button>
-                                <button onClick={() => updateItemQuantity(item._id, item.quantity - 1)}>-</button>
-                                <button onClick={() => removeFromCart(item._id)}>Remove</button>
-                            </div>
-                        ))
-                   
-                    <h3>Total: ₹{totalBill}</h3>
-                    <button onClick={handleCheckout} className="checkout-button">
-                        Proceed to Payment
-                    </button>
-                </div> */}
-
         {cartItems.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
@@ -90,6 +68,7 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
             </div>
           ))
         )}
+      </div>
       </div>
     </div>
   );
