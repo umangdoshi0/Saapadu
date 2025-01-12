@@ -71,11 +71,13 @@ const Menu = ({ addToCart }) => {
                                 <img src={vegpizza} alt={item.name} className="food-img" />
                                 <div className="quantity-controls">
                                     {quantities[item._id] > 0 ? (
-                                        <div className="Q-controls">
-                                            <button className="add-to-cart" onClick={() => decreaseQuantity(item._id)}>-</button>
-                                            <span>{quantities[item._id]}</span>
-                                            <button className="add-to-cart" onClick={() => increaseQuantity(item._id)}>+</button>
-                                        </div>
+                                        <>
+                                            <div className="btn-controls">
+                                            <button className="Q-btn" onClick={() => decreaseQuantity(item._id)}>-</button> 
+                                            <span className="Q-number"> {quantities[item._id]}</span>
+                                            <button className="Q-btn" onClick={() => increaseQuantity(item._id)}>+</button>
+                                            </div>   
+                                        </>
                                     ) : (
                                         <button className="add-to-cart"onClick={() => handleAddToCart(item)}>ADD</button>
                                     )}
