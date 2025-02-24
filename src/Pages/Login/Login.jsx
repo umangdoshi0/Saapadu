@@ -256,7 +256,9 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate(); // Use useNavigate for redirection
+
+    // Use useNavigate for redirection
+    const navigate = useNavigate(); 
 
     const handleLogin = async (e) => {
         e.preventDefault();
