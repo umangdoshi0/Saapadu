@@ -79,10 +79,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* <Route path="/home" element={<Home />} /> */}
-          <Route path="/login" element={<Login />} />
+         / <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           {/* <Route path="/home" element={<Home />} /> */}
-          {/* <Route path="*" element={<Navigate to="/login" />} /> */}
+          <Route path="*" element={<Navigate to="/login" />} />
           <Route
             path="/menu"
             element={<Menu addToCart={addToCart} cartItems={cartItems} />}
@@ -99,7 +99,7 @@ function App() {
               />
             }
           />
-          <Route path="*" element={<Navigate to="/home" />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </BrowserRouter>
     </div>
