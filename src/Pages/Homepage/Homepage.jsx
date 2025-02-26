@@ -3,10 +3,10 @@ import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 import "./Homepage.css";
 import { useNavigate } from "react-router-dom";
-import northsquare from "../../Assests/northsquare.jpeg";
-import aavin from "../../Assests/aavin.png";
-import gazebo from "../../Assests/gazebo1.png";
-import lassihouse from "../../Assests/lassihouse.png";
+import northsquare from "../../Assets/northsquare.jpeg";
+import aavin from "../../Assets/aavin.png";
+import gazebo from "../../Assets/gazebo1.png";
+import lassihouse from "../../Assets/lassihouse.png";
 
 function Homepage() {
   const cafesRef = useRef(null);

@@ -1,4 +1,6 @@
 .container {
+    background-image: url('../../Assets/bg.jpg');
+    background-position: cover;
     display: flex;
     flex-direction: column;
     margin: auto;

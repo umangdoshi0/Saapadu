@@ -2,7 +2,7 @@
 import React from "react";
 import "./Cart.css";
 import Navbar from "../../Components/Navbar/Navbar";
-import vegpizza from "../../Assests/vegpizza.png";
+import vegpizza from "../../Assets/vegpizza.png";
 // import { FaUser } from "react-icons/fa";
 // import { useNavigate } from 'react-router-dom';
 

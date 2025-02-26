@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Menu.css";
 import Navbar from "../../Components/Navbar/Navbar";
-import vegpizza from "../../Assests/vegpizza.png";
+import vegpizza from "../../Assets/vegpizza.png";
 
 const Menu = ({ addToCart }) => {
     const [items, setItems] = useState([]);
