@@ -249,7 +249,7 @@
 
 import '../Login/Login.css';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [regNo, setRegno] = useState('');
@@ -293,42 +293,55 @@ const Login = () => {
     };
 
     return (
-        <div className="container">
-            <form className="form" onSubmit={handleLogin}>
-                <div className="form_front">
-                    <div className="header">
-                        <div className="text">LOGIN</div>
-                        <div className="underline"></div>
-                    </div>
-                    <input
-                        placeholder="Register Number"
-                        className="input"
-                        id='regNo'
-                        type="text"
-                        value={regNo}
-                        onChange={(e) => setRegno(e.target.value)}
-                    />
-                    <input
-                        placeholder="Password"
-                        className="input"
-                        id='password'
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {error && <p className="error">{error}</p>}
-                    <button className="btn" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Login'}
-                    </button>
-                    <span className="switch">
-                        Don't have an account?
-                        {/* <a className="signup_tog" href="/signup"> SIGN UP</a> */}
-                        <button className="signup_tog" onClick={() => navigate('/signup')}> SIGN UP</button>
+        // <div className="container">
+        //     <form className="form" onSubmit={handleLogin}>
+        //         <div className="form_front">
+        //             <div className="header">
+        //                 <div className="text">LOGIN</div>
+        //                 <div className="underline"></div>
+        //             </div>
+        //             <input
+        //                 placeholder="Register Number"
+        //                 className="input"
+        //                 id='regNo'
+        //                 type="text"
+        //                 value={regNo}
+        //                 onChange={(e) => setRegno(e.target.value)}
+        //             />
+        //             <input
+        //                 placeholder="Password"
+        //                 className="input"
+        //                 id='password'
+        //                 type="password"
+        //                 value={password}
+        //                 onChange={(e) => setPassword(e.target.value)}
+        //             />
+        //             {error && <p className="error">{error}</p>}
+        //             <button className="btn" disabled={loading}>
+        //                 {loading ? 'Logging in...' : 'Login'}
+        //             </button>
+        //             <span className="switch">
+        //                 Don't have an account?
+        //                 {/* <a className="signup_tog" href="/signup"> SIGN UP</a> */}
+        //                 <button className="signup_tog" onClick={() => navigate('/signup')}> SIGN UP</button>
 
-                    </span>
-                </div>
+        //             </span>
+        //         </div>
+        //     </form>
+        // </div>
+        <>
+            <div className="login-container">
+            <div className='login-box'>
+            <h2>Login</h2>
+            <form>
+                <input type="text" placeholder="Register Number"/><br/>
+                <input type="password" placeholder="password"/><br/>
+                <button type="button" className="submit-btn" onClick={ () => navigate("/home")}>Login</button>
+               <p className='toggle-link'>Don't have a account? <span className='link'><Link to="/signup">Register </Link></span></p>
             </form>
-        </div>
+            </div>
+            </div>
+        </>
     );
 };
 
