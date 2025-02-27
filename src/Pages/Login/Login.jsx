@@ -249,7 +249,7 @@
 
 import '../Login/Login.css';
 import React, { useState } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [regNo, setRegno] = useState('');
@@ -284,6 +284,7 @@ const Login = () => {
 
             const data = await response.json();
             localStorage.setItem('token', data.token);
+            console.log("Redirecting to home");
             navigate('/home'); // Use navigate for redirection
         } catch (err) {
             setError(err.message);
@@ -329,15 +330,27 @@ const Login = () => {
         //         </div>
         //     </form>
         // </div>
-        <>
+         <>
             <div className="login-container">
             <div className='login-box'>
             <h2>Login</h2>
-            <form>
-                <input type="text" placeholder="Register Number"/><br/>
-                <input type="password" placeholder="password"/><br/>
-                <button type="button" className="submit-btn" onClick={ () => navigate("/home")}>Login</button>
-               <p className='toggle-link'>Don't have a account? <span className='link'><Link to="/signup">Register </Link></span></p>
+            <form onSubmit={handleLogin}>
+                <input type="text" placeholder="Register Number"
+                    id="regNo"
+                    value={regNo}
+                    onChange={(e) => setRegno(e.target.value)}
+                />
+                <input type="password" placeholder="password"
+                    id="password"
+                    value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+                {error && <p className="error">{error}</p>}
+                <button className= "submit-btn" disabled={loading}>
+                    {loading?'Loggin in...' : 'Login'}
+                </button>
+                {/*  */}
+               <p className='toggle-link'>Don't have a account? <span className='link' onClick={() => navigate('/signup')}></span></p>
             </form>
             </div>
             </div>
