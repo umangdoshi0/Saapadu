@@ -50,64 +50,65 @@ const Signup = () => {
     };
 
     return (
-        <div className="container">
-            <form className="form" onSubmit={handleSignup}>
-                <div className="form_back">
-                    <div className="header">
-                        <div className="text">SIGN UP</div>
-                        <div className="underline"></div>
-                    </div>
-                    <input
-                        placeholder="Name"
-                        className="input"
-                        id='name'
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                    <input
-                        placeholder="Register Number"
-                        className="input"
-                        id='regNo'
-                        type="text"
-                        value={regNo}
-                        onChange={(e) => setRegno(e.target.value)}
-                    />
-                    <input
-                        placeholder="Email ID"
-                        className="input"
-                        id='email'
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <input
-                        placeholder="Phone Number"
-                        className="input"
-                        id='number'
-                        type="number"
-                        value={number}
-                        onChange={(e) => setNumber(e.target.value)}
-                    />
-                    <input
-                        placeholder="Password"
-                        className="input"
-                        id='password'
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {error && <p className="error">{error}</p>}
-                    <button className="btn" disabled={loading}>
-                        {loading ? 'Signing up...' : 'Sign Up'}
-                    </button>
-                    <span className="switch">
-                        Already have an account?
-                        <a className="signup_tog" href="/"> SIGN IN</a>
-                    </span>
-                </div>
-            </form>
-        </div>
+        // <div className="container">
+        //     <form className="form" onSubmit={handleSignup}>
+        //         <div className="form_back">
+        //             <div className="header">
+        //                 <div className="text">SIGN UP</div>
+        //                 <div className="underline"></div>
+        //             </div>
+        //             <input
+        //                 placeholder="Name"
+        //                 className="input"
+        //                 id='name'
+        //                 type="text"
+        //                 value={name}
+        //                 onChange={(e) => setName(e.target.value)}
+        //             />
+        //             <input
+        //                 placeholder="Register Number"
+        //                 className="input"
+        //                 id='regNo'
+        //                 type="text"
+        //                 value={regNo}
+        //                 onChange={(e) => setRegno(e.target.value)}
+        //             />
+        //             <input
+        //                 placeholder="Email ID"
+        //                 className="input"
+        //                 id='email'
+        //                 type="email"
+        //                 value={email}
+        //                 onChange={(e) => setEmail(e.target.value)}
+        //             />
+        //             <input
+        //                 placeholder="Phone Number"
+        //                 className="input"
+        //                 id='number'
+        //                 type="number"
+        //                 value={number}
+        //                 onChange={(e) => setNumber(e.target.value)}
+        //             />
+        //             <input
+        //                 placeholder="Password"
+        //                 className="input"
+        //                 id='password'
+        //                 type="password"
+        //                 value={password}
+        //                 onChange={(e) => setPassword(e.target.value)}
+        //             />
+        //             {error && <p className="error">{error}</p>}
+        //             <button className="btn" disabled={loading}>
+        //                 {loading ? 'Signing up...' : 'Sign Up'}
+        //             </button>
+        //             <span className="switch">
+        //                 Already have an account?
+        //                 <a className="signup_tog" href="/"> SIGN IN</a>
+        //             </span>
+        //         </div>
+        //     </form>
+        // </div>
+        <h2>Hello</h2>
     );
 };
 
