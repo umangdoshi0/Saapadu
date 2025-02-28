@@ -230,7 +230,7 @@ color: #000;
 
     .login-box , .signup-box
     {
-        width: 90%;
+    width: 90%;
     min-width: 250px;
     max-width: 500px;
     }
@@ -238,9 +238,9 @@ color: #000;
 
 
 
-@media (max-width: 480px) {
-    .login-container, .signup-container {
+/* @media (max-width: 480px) {
+    .login-container, .signup-container { */
         /* background-size: cover; */
         /* background-position: center; */
-    }
-}
+    /* }
+} */

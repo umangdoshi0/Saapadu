@@ -11,9 +11,7 @@ function Navbar() {
                 {/* <Image />
                 <Text /> */}
                 <Logo />
-                <div className="text">
-        <h2>VIT SAPAADU</h2>
-      </div>
+                
             </div>
         </div>
     );
