@@ -14,6 +14,7 @@ function Footer() {
             {/* <img src={logo} alt="logo" style={{width:110}}/>
             <h3 style={{fontSize:20}}></h3> */}
             <Logo/>
+            
           </div>
           <div className="section">
             <div className="footer-section">
