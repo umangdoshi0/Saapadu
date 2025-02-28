@@ -350,7 +350,7 @@ const Login = () => {
                     {loading?'Loggin in...' : 'Login'}
                 </button>
                 {/*  */}
-               <p className='toggle-link'>Don't have a account? <span className='link' onClick={() => navigate('/signup')}></span></p>
+               <p className='toggle-link'>Don't have a account? <span className='link' onClick={() => navigate('/signup')}>Register</span></p>
             </form>
             </div>
             </div>
