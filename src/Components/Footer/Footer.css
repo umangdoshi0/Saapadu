@@ -1,7 +1,7 @@
 .footer {
     background-color: #f3f1f1;
     width: auto;
-    height:350px;
+    min-height:350px;
     padding: 20px;
     margin-top: 250px;
   }
@@ -13,6 +13,8 @@
       justify-content: space-around;
       padding: 20px 80px;
   }
+
+
   
   div .company
   {
@@ -32,4 +34,18 @@
     text-decoration: none;
     color: rgb(105, 105, 105);
   }
- 
+  @media (max-width: 480px) {
+
+    div .section{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 0;
+    }
+    .heading
+    {
+        padding:0px;
+    }
+
+}
