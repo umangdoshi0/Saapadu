@@ -35,8 +35,29 @@ a{
 }
 
 @media (max-width: 768px) {
+
+    .logo-container
+    {
+        padding: 20px 0;
+    }
 }
 
 @media (max-width: 480px) {
 
+    .logo-container
+{
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+    padding: 10px 0;
+}
+.text h2
+{
+    font-size: 1.4rem;
+    padding-left:3px;
+}
+.logo img
+{
+    width: 35px;
+}
 }
