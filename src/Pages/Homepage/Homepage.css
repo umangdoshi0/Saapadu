@@ -32,35 +32,6 @@
 
 }
 
-@media (max-width: 480px) {
-
-    /* .cafes-list h1
-    {
-        font-size: 1.9rem;
-    } */
-
-    /* .cafes-cont-wrapper
-    {
-        overflow:visible;
-    } */
-
-    /* .cafes-cont{
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            overflow: visible; 
-    } */
-    /* .cafe1 {
-        width: 90%; 
-        margin: 0 auto;
-        overflow: hidden;
-      } */
-
-      /* .arrow {
-        display: none;
-      } */
-}
 
 /* Individual restaurant card */
 .cafe1 {
@@ -126,4 +97,38 @@
 
 .right {
     right: 10px;
+}
+
+@media (max-width: 480px) {
+
+    .cafes-list h1
+    {
+        font-size: 1.9rem;
+        padding: 25px 0;
+        text-align: center;
+    }
+
+    /* .cafes-cont-wrapper
+    {
+        overflow:visible;
+    } */
+
+    .cafes-cont{
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            overflow: visible; 
+    }
+    .cafe1 {
+        width: 90%; 
+        margin: 0 auto;
+        overflow: hidden;
+        box-shadow: 0px 7px 18px  rgba(0, 0, 0, 0.481);
+        /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+      }
+
+      .arrow {
+        display: none;
+      }
 }
