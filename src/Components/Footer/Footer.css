@@ -39,13 +39,16 @@
     div .section{
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: flex-start;
-      padding: 0;
+      padding: 0 15px;
     }
     .heading
     {
-        padding:0px;
+        padding:5px;
+    }
+    .footer-section{
+      line-height: 38px;
     }
 
 }
