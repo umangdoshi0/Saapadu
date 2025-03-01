@@ -33,7 +33,7 @@
 
 .menu-item-card {
   display: flex;
-  width: 840px;
+  max-width: 840px;
   border: 1px solid #ddd;
   padding: 20px;
   border-radius: 8px;
@@ -116,4 +116,16 @@
 
 .go-to-cart-button:hover {
   background-color: #45a049;
+}
+
+@media (max-width: 480px) {
+
+  .food-menu h2 
+  {
+    margin: 5px 0 12px 0;
+  }
+
+  .item-details .price{
+    font-weight: bold;
+  }
 }
