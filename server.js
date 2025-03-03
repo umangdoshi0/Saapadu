@@ -129,5 +129,5 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 // Redirect all unknown routes to index.html
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/", "index.js"));
+  res.sendFile(path.join(__dirname, "src/", "index.js"));
 });
