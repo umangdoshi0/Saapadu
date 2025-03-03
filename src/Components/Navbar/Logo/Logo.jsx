@@ -1,9 +1,12 @@
 import React from "react";
 import logo from '../../../Assets/logo.png';
 import "./Logo.css"
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Logo() {
+
+  const navigate = useNavigate();
+
   return (
     <>
     {/* <a href="/home">
@@ -14,7 +17,7 @@ function Logo() {
         <h2>VIT SAPAADU</h2>
       </div>
       </a> */}
-      <div className="logo-container" onClick={()=> Navigate("/home")}>
+      <div className="logo-container" onClick={()=> navigate("/home")}>
       <div className="logo"><img src={logo} alt="LOGO" /></div>
       <div className="text"><h2>VIT SAPAADU</h2></div> 
       </div>

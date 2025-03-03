@@ -17,60 +17,69 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
   };
 
   return (
-    <div className="checkout-container">
+    <>
       <Navbar />
-      <div className="checkout">
-      <div className="checkout-wrapper">
-        <h2 className="checkout-title">Checkout</h2>
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty.</p>
-        ) : (
-          cartItems.map((item) => (
-            <div key={item._id} className="checkout-details">
-              <div className="restaurants-details">
-                <img src={vegpizza} alt={item.name} style={{width:"50px"}}/>
-                <h3 className="resto-name">Rest name</h3>
-              </div>
-              <div className="order-details">
-                <h3 className="item-name">{item.name}</h3>
-                <div className="Quantity-controls">
-                <button className="Q-btn"
-                  onClick={() =>
-                    updateItemQuantity(item._id, item.quantity - 1)
-                  }
-                >
-                  -
-                </button>
-                <p className="Q-number">{item.quantity}</p>
-                <button className="Q-btn"
-                  onClick={() =>
-                    updateItemQuantity(item._id, item.quantity + 1)
-                  }
-                >
-                  +
-                </button>
-                 {/* <button onClick={() => removeFromCart(item._id)}>Remove</button> */}
+      <div className="checkout-container">
+        {/* <div className="checkout"> */}
+          <div className="checkout-wrapper">
+            <h2 className="checkout-title">Checkout</h2>
+            {cartItems.length === 0 ? (
+              <p>Your cart is empty.</p>
+            ) : (
+              cartItems.map((item) => (
+                <div key={item._id} className="checkout-details">
+                  <div className="restaurants-details">
+                    <img
+                      src={vegpizza}
+                      alt={item.name}
+                      style={{ width: "50px" }}
+                    />
+                    <h3 className="resto-name">Rest name</h3>
+                  </div>
+                  <div className="order-details">
+                    <h3 className="item-name">{item.name}</h3>
+                    <div className="Quantity-controls">
+                      <button
+                        className="Q-btn"
+                        onClick={() =>
+                          updateItemQuantity(item._id, item.quantity - 1)
+                        }
+                      >
+                        -
+                      </button>
+                      <p className="Q-number">{item.quantity}</p>
+                      <button
+                        className="Q-btn"
+                        onClick={() =>
+                          updateItemQuantity(item._id, item.quantity + 1)
+                        }
+                      >
+                        +
+                      </button>
+                      {/* <button onClick={() => removeFromCart(item._id)}>Remove</button> */}
+                    </div>
+                    <p className="item-price"> ₹{item.price}</p>
+                  </div>
+                  <hr />
+                  <div className="bill-details">
+                    <h4 className="bill-heading">Bill Details</h4>
+                    <div className="total-price">
+                      <h3>Item Total</h3>
+                      <h3>₹{totalBill}</h3>
+                    </div>
+                  </div>
+                  <button
+                      onClick={handleCheckout}
+                      className="checkout-button">
+                      Proceed to Payment
+                    </button>
                 </div>
-                <p className="item-price"> ₹{item.price}</p>
-              </div>
-              <hr />
-              <div className="bill-details">
-                <h4 className="bill-heading">Bill Details</h4>
-                <div className="total-price">
-                  <h3>Item Total</h3>
-                  <h3>₹{totalBill}</h3>
-                </div>
-                
-                <button onClick={handleCheckout} className="checkout-button">
-                  Proceed to Payment
-                </button>
-              </div>
-            </div>
-          ))
-        )}
+              ))
+            )}
+          </div>
+        {/* </div> */}
       </div>
-      </div>
-    </div>
+    </>
   );
 };
 
