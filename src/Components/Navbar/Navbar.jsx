@@ -11,6 +11,7 @@ function Navbar() {
                 {/* <Image />
                 <Text /> */}
                 <Logo />
+                
             </div>
         </div>
     );

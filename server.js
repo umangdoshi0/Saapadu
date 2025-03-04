@@ -121,3 +121,13 @@ const PORT = process.env.PORT || 5000; // Use environment variable for port
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+const path = require("path");
+
+// Serve frontend build files
+app.use(express.static(path.join(__dirname, "client/build")));
+
+// Redirect all unknown routes to index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "src/", "index.js"));
+});
