@@ -21,6 +21,7 @@ function Logo() {
         <div className="logo"><img src={logo} alt="LOGO" /></div>
         <div className="text"><h2>VIT SAPAADU</h2></div>
       </div>
+      
     </>
   );
 }
