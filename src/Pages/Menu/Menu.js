@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Menu.css";
 import Navbar from "../../Components/Navbar/Navbar";
+import vegpizza from "../../Assets/vegpizza.png";
 
 const Menu = ({ addToCart }) => {
     const [items, setItems] = useState([]);
@@ -30,6 +31,12 @@ const Menu = ({ addToCart }) => {
         setQuantities((prev) => ({
             ...prev,
             [id]: Math.max((prev[id] || 1) - 1, 0),
+        }));
+    };
+    const increaseQuantity = (id) => {
+        setQuantities((prev) => ({
+            ...prev,
+            [id]: (prev[id] || 0) + 1,
         }));
     };
 
@@ -61,16 +68,20 @@ const Menu = ({ addToCart }) => {
                                 <p className="description">{item.description}</p>
                             </div>
                             <div className="item-image">
-                                <img src={item.image} alt={item.name} />
+                                <img src={vegpizza} alt={item.name} className="food-img" />
                                 <div className="quantity-controls">
                                     {quantities[item._id] > 0 ? (
                                         <>
-                                            <button onClick={() => decreaseQuantity(item._id)}>-</button>
-                                            <span>{quantities[item._id]}</span>
+                                            <div className="btn-controls">
+                                            <button className="Q-btn" onClick={() => decreaseQuantity(item._id)}>-</button> 
+                                            <span className="Q-number"> {quantities[item._id]}</span>
+                                            <button className="Q-btn" onClick={() => increaseQuantity(item._id)}>+</button>
+                                            </div>   
                                         </>
                                     ) : (
-                                        <button onClick={() => handleAddToCart(item)}>ADD</button>
+                                        <button className="add-to-cart"onClick={() => handleAddToCart(item)}>ADD</button>
                                     )}
+
                                 </div>
                             </div>
                         </div>
