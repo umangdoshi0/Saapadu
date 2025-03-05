@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const session = require('express-session');
-const path = require("path");
+// const session = require('express-session');
+// const path = require("path");
 require('dotenv').config();
 
 // Initialize Express app
@@ -18,12 +18,12 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'your_session_secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
+// app.use(session({
+//     secret: process.env.SESSION_SECRET || 'your_session_secret',
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false }
+// }));
 
 // MongoDB Connection
 const URL = process.env.MONGO_URI;
@@ -77,8 +77,8 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Invalid Password' });
         }
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        req.session.regNo = regNo;
+        // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // req.session.regNo = regNo;
 
         return res.status(200).json({ message: 'Login successful', token });
     } catch (err) {
@@ -110,12 +110,12 @@ app.get('/api/items', async (req, res) => {
 });
 
 // Serve React Frontend
-app.use(express.static(path.join(__dirname, "client/build")));
+// app.use(express.static(path.join(__dirname, "client/build")));
 
-// Redirect all unknown routes to React index.html
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.js"));
-});
+// Redirect all unknown routes to React index.js
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "client/build", "index.js"));
+// });
 
 // Start Server
 const PORT = process.env.PORT || 5000;
