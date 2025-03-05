@@ -24,15 +24,23 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
-
-// MongoDB Connection
-const URL = process.env.MONGO_URI;
-mongoose.connect(URL)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => {
+const startServer = async () => {
+    try {
+        // MongoDB Connection
+        const URL = process.env.MONGO_URI;
+        await mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log('Connected to MongoDB');
+        // Start Server
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    } catch (err) {
         console.error('Error connecting to MongoDB:', err);
         process.exit(1);
-    });
+    }
+};
+startServer();
 
 // MongoDB User Model
 const User = mongoose.model('logininfos', new mongoose.Schema({
@@ -110,18 +118,18 @@ app.get('/api/items', async (req, res) => {
 });
 
 // Serve React Frontend
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "build")));
 
 // Redirect all unknown routes to React index.html
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.js"));
+    res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// // Start Server
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });
 
 
 // const express = require('express');
