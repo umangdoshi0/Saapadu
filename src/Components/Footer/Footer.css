@@ -1,0 +1,55 @@
+.footer {
+  background-color: #f3f1f1;
+  width: auto;
+  min-height: 350px;
+  padding: 20px;
+  margin-top: 250px;
+}
+
+div .section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 20px 80px;
+}
+
+
+
+div .company {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  padding: 40px 15px;
+}
+
+.footer-section {
+  line-height: 38px;
+}
+
+p a {
+  font-size: 20px;
+  text-decoration: none;
+  color: rgb(105, 105, 105);
+}
+
+@media (max-width: 480px) {
+
+  div .section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 15px;
+  }
+
+  .heading {
+    padding: 5px;
+  }
+
+  .footer-section {
+    line-height: 38px;
+  }
+
+}
