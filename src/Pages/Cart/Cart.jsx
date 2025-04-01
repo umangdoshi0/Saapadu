@@ -23,16 +23,17 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
         {/* <div className="checkout"> */}
         <div className="checkout-wrapper">
           <h2 className="checkout-title">Checkout</h2>
+          <div className="restaurants-details">
+                    <img src={vegpizza} alt="FOOD" style={{ width: "50px" }} />
+                    <h3 className="resto-name">Gazebo</h3>
+                  </div>
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
             <>
               {cartItems.map((item) => (
                 <div key={item._id} className="checkout-details">
-                  <div className="restaurants-details">
-                    <img src={vegpizza} alt={item.name} style={{ width: "50px" }} />
-                    <h3 className="resto-name">Gazebo</h3>
-                  </div>
+                  
 
                   <div className="order-details">
                     <h3 className="item-name">{item.name}</h3>

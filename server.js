@@ -6,6 +6,8 @@ import cors from 'cors';
 import session from 'express-session';
 import path from "path";
 import dotenv from 'dotenv';
+import process from 'process';
+
 
 // Load environment variables
 dotenv.config();
