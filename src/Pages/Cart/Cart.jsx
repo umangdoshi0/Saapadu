@@ -3,6 +3,8 @@ import React from "react";
 import "./Cart.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import vegpizza from "../../Assets/vegpizza.png";
+import process from 'process';
+import axios from "axios";
 // import { FaUser } from "react-icons/fa";
 // import { useNavigate } from 'react-router-dom';
 
@@ -12,8 +14,39 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
   //     navigate(`/account`);
   // };
 
-  const handleCheckout = () => {
-    alert("Order placed successfully!");
+  const handleCheckout = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:5000/api/payment/create-order", {
+        amount: totalBill,
+        currency: "INR",
+      });
+
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID, 
+        amount: data.order.amount,
+        currency: data.order.currency,
+        order_id: data.order.id,
+        name: "Demo Payment",
+        description: "Test Transaction",
+        handler: function (response) {
+          alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+        },
+        prefill: {
+          name: "John Doe",
+          email: "johndoe@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#F37254",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Payment failed!");
+    }
   };
 
   return (
