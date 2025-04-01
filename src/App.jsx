@@ -68,7 +68,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/menu/:cafeId" element={<Menu addToCart={addToCart}cartItems={cartItems}/>} />
+          <Route path="/menu" element={<Menu addToCart={addToCart} cartItems={cartItems}/>} />
           <Route
             path="/cart"
             element={

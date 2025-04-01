@@ -98,52 +98,53 @@ app.post('/login', async (req, res) => {
 });
 
 // MongoDB Cafe Model
-const Cafes = mongoose.model('cafes', new mongoose.Schema({
-    name: String,
-    image: String,
-    category:[String]
-}));
-app.get('/api/cafes', async (req, res) => {
-    console.log("Fetching cafe...");
-    try {
-        const cafe = await Cafes.find();
-        res.json(cafe);
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        res.status(500).send("Server Error");
-    }
-});
+// const Cafes = mongoose.model('cafes', new mongoose.Schema({
+//     name: String,
+//     image: String,
+//     category:[String]
+// }));
+// app.get('/api/cafes', async (req, res) => {
+//     console.log("Fetching cafe...");
+//     try {
+//         const cafe = await Cafes.find();
+//         res.json(cafe);
+//     } catch (error) {
+//         console.error("Error fetching data:", error);
+//         res.status(500).send("Server Error");
+//     }
+// });
 
 
 // MongoDB Menu Model
-const Menu = mongoose.model('menuitems', new mongoose.Schema({
+const Menu = mongoose.model('fooditems', new mongoose.Schema({
     name: String,
     price: Number,
     rating: Number,
     category : String,
-    cafeId : String,
+    cafeId: String,
     reviews: Number,
     description: String,
     image: String
 }));
 
 // Fetch All Food Items Route
-app.get('/api/items/:cafeId', async (req, res) => {
+app.get('/api/items', async (req, res) => {
     
     try {
-        const {cafeId} = req.params;
-        console.log("Recieved cafeId :" , cafeId);
+        // const {cafeId} = req.params;
+        // console.log("Recieved cafeId :" , cafeId);
         console.log("Fetching food items...");
 
+        const items = await Menu.find();
 
-        const items = await Menu.find({cafeId: cafeId});
-        console.log("Fetched menu Items:" , items);
+        // console.log("Fetched menu Items:" , items);
         res.json(items);
     } catch (error) {
         console.error("Error fetching data:", error);
         res.status(500).send("Server Error");
     }
 });
+
 
 
 const razorpay = new Razorpay({

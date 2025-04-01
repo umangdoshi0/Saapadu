@@ -15,13 +15,12 @@ const Menu = ({ addToCart }) => {
 
     useEffect(() => {
         // Fetch food items from the backend API
-        fetch(`http://localhost:5000/api/items/${cafeId}`)
-            .then((response) =>response.json())
-               .then((data) =>{
-                console.log("Fetched Menu Data:" ,data);
+        fetch("http://localhost:5000/api/items")
+            .then((response) => response.json())
+            .then((data) => {
                 setItems(data);
                 setLoading(false);
-               })
+            })
             .catch((err) => {
                 console.error("Error fetching data:", err);
                 setError("Error fetching data. Please check the backend.");
