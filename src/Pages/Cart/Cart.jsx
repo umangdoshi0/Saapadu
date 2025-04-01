@@ -3,11 +3,7 @@ import React from "react";
 import "./Cart.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import vegpizza from "../../Assets/vegpizza.png";
-// import process from 'process';
 import axios from "axios";
-import { meta } from "@eslint/js";
-// import { FaUser } from "react-icons/fa";
-// import { useNavigate } from 'react-router-dom';
 
 const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
   // const navigate = useNavigate();
