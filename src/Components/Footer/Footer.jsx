@@ -20,7 +20,7 @@ function Footer() {
             <div className="footer-section">
               <h2>Company</h2>
               <p>
-                <Link to="/about">About us</Link>              </p>
+                <Link to="/about">About us</Link></p>
               <p>
                 <a href="#Team">Team</a>
               </p>
