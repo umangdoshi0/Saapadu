@@ -31,7 +31,7 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
                 <div key={item._id} className="checkout-details">
                   <div className="restaurants-details">
                     <img src={vegpizza} alt={item.name} style={{ width: "50px" }} />
-                    <h3 className="resto-name">Rest name</h3>
+                    <h3 className="resto-name">Gazebo</h3>
                   </div>
 
                   <div className="order-details">
