@@ -6,6 +6,8 @@ import cors from 'cors';
 import session from 'express-session';
 import path from "path";
 import dotenv from 'dotenv';
+import process from 'process';
+
 
 // Load environment variables
 dotenv.config();
@@ -94,6 +96,24 @@ app.post('/login', async (req, res) => {
         return res.status(500).json({ error: 'Server error' });
     }
 });
+
+// MongoDB Cafe Model
+const Cafes = mongoose.model('cafes', new mongoose.Schema({
+    name: String,
+    image: String,
+    category:[String]
+}));
+app.get('/api/cafes', async (req, res) => {
+    console.log("Fetching cafe...");
+    try {
+        const cafe = await Cafes.find();
+        res.json(cafe);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 // MongoDB Menu Model
 const Menu = mongoose.model('fooditems', new mongoose.Schema({
