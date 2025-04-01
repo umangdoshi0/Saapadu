@@ -97,6 +97,24 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// MongoDB Cafe Model
+const Cafes = mongoose.model('cafes', new mongoose.Schema({
+    name: String,
+    image: String,
+    category:[String]
+}));
+app.get('/api/cafes', async (req, res) => {
+    console.log("Fetching cafe...");
+    try {
+        const cafe = await Cafes.find();
+        res.json(cafe);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.status(500).send("Server Error");
+    }
+});
+
+
 // MongoDB Menu Model
 const Menu = mongoose.model('fooditems', new mongoose.Schema({
     name: String,
