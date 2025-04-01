@@ -4,20 +4,20 @@ import Footer from "../../Components/Footer/Footer";
 import "./Homepage.css";
 import { useNavigate } from "react-router-dom";
 import northsquare from "../../Assets/northsquare.jpeg";
-import aavin from "../../Assets/aavin.png";
-import gazebo from "../../Assets/gazebo1.png";
-import lassihouse from "../../Assets/lassihouse.png";
+// import aavin from "../../Assets/aavin.png";
+// import gazebo from "../../Assets/gazebo1.png";
+// import lassihouse from "../../Assets/lassihouse.png";
 
 function Homepage() {
   const cafesRef = useRef(null);
   const navigate = useNavigate();
-  const [, setCafes] = useState([]);
+  const [cafes, setCafes] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/items")
+    fetch("http://localhost:5000/api/cafes")
       .then((response) => response.json())
       .then((data) => setCafes(data))
-      .catch((error) => console.error("Error fetching items:", error));
+      .catch((error) => console.error("Error fetching cafes:", error));
   }, []);
 
   const scrollLeft = () => {
@@ -33,8 +33,8 @@ function Homepage() {
   };
 
   // Handle cafe click to navigate to the Menu page
-  const handleCafeClick = () => {
-    navigate(`/menu`); // Programmatically navigate to the '/menu' page
+  const handleCafeClick = (cafeId) => {
+    navigate(`/menu/${cafeId}`); // Programmatically navigate to the '/menu:id' page
   };
   return (
     <>
@@ -47,77 +47,81 @@ function Homepage() {
           </button>
           <div className="cafes-cont" ref={cafesRef}>
             {/* Cafe 1 */}
-            <div className="cafe1" onClick={handleCafeClick}>
-              {/* <div className="cafe1"> */}
+            {cafes.length>0? (cafes.map((cafe,index) =>(
+            <div key={index} className="cafe1" onClick={()=> handleCafeClick(cafe.id)}>
               <img className="cafe1-img" src={northsquare} alt="North Square" />
               <div className="cafe1-det">
-                <h2>North Square</h2>
-                <p>North Indian | Chinese | Fast Food</p>
+                <h2>{cafe.name}</h2>
+                <p>{cafe.category}</p>
               </div>
             </div>
+            ))):
+            (
+              <p>No cafe found</p>
+            )}
 
             {/* Cafe 2 */}
-            <div className="cafe1">
+            {/* <div className="cafe1">
               <img className="cafe1-img" src={gazebo} alt="Another Cafe" />
               <div className="cafe1-det">
                 <h2>Gazibo-1</h2>
                 <p>Italian | Continental | Desserts</p>
               </div>
-            </div>
+            </div> */}
 
             {/* Cafe 3 */}
-            <div className="cafe1">
+            {/* <div className="cafe1">
               <img className="cafe1-img" src={gazebo} alt="Cafe 3" />
               <div className="cafe1-det">
                 <h2>Gazibo-2</h2>
                 <p>Mexican | Fast Food</p>
               </div>
-            </div>
+            </div> */}
 
             {/* Cafe 4 */}
-            <div className="cafe1">
+            {/* <div className="cafe1">
               <img className="cafe1-img" src={lassihouse} alt="Cafe 4" />
               <div className="cafe1-det">
                 <h2>Lassi House</h2>
                 <p>Chinese | Thai | Fast Food</p>
               </div>
-            </div>
+            </div> */}
 
             {/* Cafe 5 */}
-            <div className="cafe1">
+            {/* <div className="cafe1">
               <img className="cafe1-img" src={aavin} alt="Cafe 5" />
               <div className="cafe1-det">
                 <h2>Aavin Parlour</h2>
                 <p>Milkshakes | Milk | Ice Cream</p>
               </div>
-            </div>
+            </div> */}
 
             {/* Cafe 6 */}
-            <div className="cafe1">
+            {/* <div className="cafe1">
               <img className="cafe1-img" src={gazebo} alt="Cafe 6" />
               <div className="cafe1-det">
                 <h2>Dakshin</h2>
                 <p>Continental | American | Fast Food</p>
               </div>
-            </div>
+            </div> */}
 
             {/* Cafe 7 */}
-            <div className="cafe1">
+            {/* <div className="cafe1">
               <img className="cafe1-img" src={northsquare} alt="Cafe 7" />
               <div className="cafe1-det">
                 <h2>North Square-II</h2>
                 <p>Japanese | Sushi | Fast Food</p>
               </div>
-            </div>
+            </div> */}
 
             {/* Cafe 8 */}
-            <div className="cafe1">
+            {/* <div className="cafe1">
               <img className="cafe1-img" src={northsquare} alt="Cafe 8" />
               <div className="cafe1-det">
                 <h2>North Square-III</h2>
                 <p>Cool Drinks | Fresh Juice | Waffles </p>
               </div>
-            </div>
+            </div> */}
           </div>
           <button className="arrow right" onClick={scrollRight}>
             &#9654;
