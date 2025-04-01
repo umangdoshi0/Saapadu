@@ -116,20 +116,28 @@ app.get('/api/cafes', async (req, res) => {
 
 
 // MongoDB Menu Model
-const Menu = mongoose.model('fooditems', new mongoose.Schema({
+const Menu = mongoose.model('menuitems', new mongoose.Schema({
     name: String,
     price: Number,
     rating: Number,
+    category : String,
+    cafeId : String,
     reviews: Number,
     description: String,
     image: String
 }));
 
 // Fetch All Food Items Route
-app.get('/api/items', async (req, res) => {
-    console.log("Fetching food items...");
+app.get('/api/items/:cafeId', async (req, res) => {
+    
     try {
-        const items = await Menu.find();
+        const {cafeId} = req.params;
+        console.log("Recieved cafeId :" , cafeId);
+        console.log("Fetching food items...");
+
+
+        const items = await Menu.find({cafeId: cafeId});
+        console.log("Fetched menu Items:" , items);
         res.json(items);
     } catch (error) {
         console.error("Error fetching data:", error);

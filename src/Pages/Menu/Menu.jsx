@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useParams} from "react-router-dom";
 import axios from "axios";
 import "./Menu.css";
 import Navbar from "../../Components/Navbar/Navbar";
@@ -11,21 +11,23 @@ const Menu = ({ addToCart }) => {
     const [error, setError] = useState(null);
     const [quantities, setQuantities] = useState({});
     const navigate = useNavigate();
+    const {cafeId} = useParams(); //get menuItems
 
     useEffect(() => {
         // Fetch food items from the backend API
-        axios
-            .get("http://localhost:5000/api/items")
-            .then((response) => {
-                setItems(response.data);
+        fetch(`http://localhost:5000/api/items/${cafeId}`)
+            .then((response) =>response.json())
+               .then((data) =>{
+                console.log("Fetched Menu Data:" ,data);
+                setItems(data);
                 setLoading(false);
-            })
+               })
             .catch((err) => {
                 console.error("Error fetching data:", err);
                 setError("Error fetching data. Please check the backend.");
                 setLoading(false);
             });
-    }, []);
+    }, [cafeId]);
 
     // Handle the decrease in quantity
     const decreaseQuantity = (id) => {
