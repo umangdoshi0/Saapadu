@@ -3,8 +3,9 @@ import React from "react";
 import "./Cart.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import vegpizza from "../../Assets/vegpizza.png";
-import process from 'process';
+// import process from 'process';
 import axios from "axios";
+import { meta } from "@eslint/js";
 // import { FaUser } from "react-icons/fa";
 // import { useNavigate } from 'react-router-dom';
 
@@ -14,15 +15,31 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
   //     navigate(`/account`);
   // };
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+  
   const handleCheckout = async () => {
     try {
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) {
+        alert("Razorpay SDK failed to load. Make sure you are online.");
+        return;
+      }
+  
       const { data } = await axios.post("http://localhost:5000/api/payment/create-order", {
         amount: totalBill,
         currency: "INR",
       });
-
+  
       const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID, 
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID, // ✅ Use Vite-compatible environment variable
         amount: data.order.amount,
         currency: data.order.currency,
         order_id: data.order.id,
@@ -40,8 +57,8 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
           color: "#F37254",
         },
       };
-
-      const rzp = new window.Razorpay(options);
+  
+      const rzp = new window.Razorpay(options); // ✅ Ensure Razorpay is loaded before calling this
       rzp.open();
     } catch (error) {
       console.error("Payment Error:", error);
