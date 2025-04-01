@@ -7,7 +7,7 @@ import session from 'express-session';
 import path from "path";
 import dotenv from 'dotenv';
 import process from 'process';
-
+import Razorpay from "razorpay";
 
 // Load environment variables
 dotenv.config();
@@ -136,6 +136,29 @@ app.get('/api/items', async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
+
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+  
+  // Define the payment route directly in `server.js`
+  app.post("/api/payment/create-order", async (req, res) => {
+    try {
+      const { amount, currency } = req.body;
+      const options = {
+        amount: amount * 100, // Convert to paise
+        currency,
+        receipt: `receipt_${Date.now()}`,
+      };
+  
+      const order = await razorpay.orders.create(options);
+      res.json({ success: true, order });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Order creation failed", error });
+    }
+  });
 
 // Serve Vite React Frontend
 import { fileURLToPath } from 'url';
