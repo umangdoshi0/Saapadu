@@ -17,6 +17,25 @@
     align-items: center;
     padding-left: 10px;
 }
+.navright
+{
+display: flex;
+padding:5px ;
+justify-content: center;
+align-items:center;
+gap:30px;
+margin-right: 10px;
+}
+.acct-icon
+{
+    font-size:1.8rem ;
+    color: #000;
+}
+.cart-icon
+{
+    font-size: 2rem;
+    color: #000;
+}
 
  @media (max-width: 480px) {
     .navbar { 

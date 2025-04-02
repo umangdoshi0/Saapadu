@@ -145,6 +145,25 @@ app.get('/api/items', async (req, res) => {
     }
 });
 
+// get account details
+app.get('/api/account', async (req, res) => {
+    if (!req.session.regNo) {
+        return res.status(401).json({ error: 'User not authenticated' });
+    }
+    
+    try {
+        const user = await User.findOne({ regNo: req.session.regNo });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json({ user });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+
 
 
 const razorpay = new Razorpay({
