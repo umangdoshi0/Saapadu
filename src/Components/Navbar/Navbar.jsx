@@ -4,7 +4,7 @@ import "./Navbar.css";
 // import Text from "./Logo/Text/Text";
 import Logo from "../Navbar/Logo/Logo"
 import { Link } from "react-router-dom";
-import { IoCart } from "react-icons/io5";
+import { IoCart } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 
 function Navbar() {
