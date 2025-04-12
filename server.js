@@ -8,6 +8,10 @@ import path from "path";
 import dotenv from 'dotenv';
 import process from 'process';
 import Razorpay from "razorpay";
+import multer from 'multer';
+import AWS from 'aws-sdk';
+import { v4 as uuidv4 } from 'uuid';
+import fs from 'fs';
 
 // Load environment variables
 dotenv.config();
@@ -29,6 +33,81 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+// Configure multer for handling file uploads
+const upload = multer({ dest: 'uploads/' }); // or use memoryStorage if you want to skip saving to disk
+
+// AWS Configuration
+AWS.config.update({
+  region: 'ap-south-1',
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
+const s3 = new AWS.S3();
+const transcribeService = new AWS.TranscribeService();
+
+// POST /transcribe endpoint
+app.post('/transcribe', upload.single('audio'), async (req, res) => {
+    try {
+      const audioFilePath = req.file.path;
+      const fileContent = fs.readFileSync(audioFilePath);
+      const s3Key = `audio/${uuidv4()}.webm`;
+  
+      // Upload to S3
+      await s3.putObject({
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: s3Key,
+        Body: fileContent,
+        ContentType: 'audio/webm',
+      }).promise();
+  
+      // Start Transcription Job
+      const jobName = `job-${uuidv4()}`;
+      const mediaUri = `https://${process.env.AWS_S3_BUCKET}.s3.amazonaws.com/${s3Key}`;
+  
+      await transcribeService.startTranscriptionJob({
+        TranscriptionJobName: jobName,
+        LanguageCode: 'en-IN',
+        Media: { MediaFileUri: mediaUri },
+        MediaFormat: 'webm',
+        OutputBucketName: process.env.AWS_S3_BUCKET,
+      }).promise();
+  
+      // Poll the job status
+      const waitForJob = async () => {
+        return new Promise((resolve, reject) => {
+          const interval = setInterval(async () => {
+            const data = await transcribeService.getTranscriptionJob({ TranscriptionJobName: jobName }).promise();
+            const status = data.TranscriptionJob.TranscriptionJobStatus;
+            if (status === 'COMPLETED') {
+              clearInterval(interval);
+              const transcriptFileUri = data.TranscriptionJob.Transcript.TranscriptFileUri;
+  
+              // Fetch transcript from URL
+              const transcriptRes = await fetch(transcriptFileUri);
+              const transcriptJson = await transcriptRes.json();
+              const transcribedText = transcriptJson.results.transcripts[0].transcript;
+  
+              resolve(transcribedText);
+            } else if (status === 'FAILED') {
+              clearInterval(interval);
+              reject('Transcription failed');
+            }
+          }, 3000);
+        });
+      };
+  
+      const text = await waitForJob();
+      res.json({ text });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Transcription failed' });
+    } finally {
+      // Clean up uploaded file
+      fs.unlinkSync(req.file.path);
+    }
+  });
 
 // Start Server
 const startServer = async () => {
