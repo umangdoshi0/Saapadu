@@ -14,7 +14,9 @@ function Homepage() {
   const [cafes, setCafes] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/cafes")
+    fetch("http://localhost:5000/api/cafes",{
+      credentials: 'include',
+    })
       .then((response) => response.json())
       .then((data) => setCafes(data))
       .catch((error) => console.error("Error fetching cafes:", error));

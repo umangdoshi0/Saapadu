@@ -276,6 +276,7 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ regNo, password }),
+                credentials: 'include',
             });
 
             if (!response.ok) {

@@ -31,7 +31,11 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'your_session_secret',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }
+    cookie: { 
+      secure: false,
+      httpOnly: true,
+      sameSite: 'lax'
+     }
 }));
 
 // Configure multer for handling file uploads
@@ -42,6 +46,75 @@ AWS.config.update({
   region: 'ap-south-1',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
+app.post("/api/checkout/send-email", async (req, res) => {
+  if (!req.session.regNo) {
+      return res.status(401).json({ error: "User not logged in" });
+  }
+
+  try {
+      // Find the user using regNo stored in session
+      const user = await User.findOne({ regNo: req.session.regNo });
+      if (!user || !user.email) {
+          return res.status(404).json({ error: "User or email not found" });
+      }
+
+
+      const { cartItems, totalBill } = req.body;
+
+        // Format the order summary
+        const orderDetails = cartItems.map(item => (
+            `• ${item.name} x ${item.quantity} — ₹${item.price * item.quantity}`
+        )).join('\n');
+
+        const emailBody = `
+Hi ${user.name},
+
+Thank you for placing an order with us! 🎉
+
+🧾 Order Summary:
+${orderDetails}
+
+💰 Total: ₹${totalBill}
+
+We’ll get started on your order right away!
+
+Best,
+Café App Team
+        `;
+
+      // Prepare SES client
+      const ses = new AWS.SES({ region: 'ap-south-1' });
+
+      // Send the email
+      const params = {
+          Destination: {
+              ToAddresses: [user.email],
+          },
+          Message: {
+              Body: {
+                  Text: {
+                      Charset: "UTF-8",
+                      Data: emailBody,
+                      // Data: `Hello ${user.name},\n\nYour order has been placed successfully!\n\nThank you for shopping with us. 😄`,
+                  },
+              },
+              Subject: {
+                  Charset: 'UTF-8',
+                  Data: 'Order Confirmation - Your Order is Placed!',
+              },
+          },
+          Source: process.env.SES_VERIFIED_EMAIL, // must be verified in SES
+      };
+
+      await ses.sendEmail(params).promise();
+
+      return res.status(200).json({ message: "Email sent successfully" });
+  } catch (err) {
+      console.error("SES error:", err);
+      return res.status(500).json({ error: "Failed to send email" });
+  }
 });
 
 const s3 = new AWS.S3();

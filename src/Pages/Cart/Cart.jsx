@@ -3,67 +3,44 @@ import React from "react";
 import "./Cart.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import vegpizza from "../../Assets/vegpizza.png";
-import axios from "axios";
+// import axios from "axios";
 
 const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
-  // const navigate = useNavigate();
-  // const handleAccountClick = () => {
-  //     navigate(`/account`);
-  // };
+    const handleCheckout = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/checkout/send-email", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          credentials: "include",
+          body: JSON.stringify({
+              cartItems,
+              totalBill
+          })
+        });
 
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
+        const data = await res.json();
+          // const res = await fetch("http://localhost:5000/api/checkout/send-email", {
+          //     method: "POST",
+          //     credentials: "include", // important for session to work
+          // });
+          // const data = await res.json();
   
-  const handleCheckout = async () => {
-    try {
-      const scriptLoaded = await loadRazorpayScript();
-      if (!scriptLoaded) {
-        alert("Razorpay SDK failed to load. Make sure you are online.");
-        return;
+          if (res.ok) {
+              alert("Order placed successfully! A confirmation email has been sent.");
+          } else {
+              alert("Order placed, but failed to send confirmation email.");
+              console.error(data);
+          }
+      } catch (err) {
+          console.error("Checkout error:", err);
+          alert("Something went wrong.");
       }
-  
-      const { data } = await axios.post("http://localhost:5000/api/payment/create-order", {
-        amount: totalBill,
-        currency: "INR",
-      });
-  
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID, // ✅ Use Vite-compatible environment variable
-        amount: data.order.amount,
-        currency: data.order.currency,
-        order_id: data.order.id,
-        name: "Demo Payment",
-        description: "Test Transaction",
-        handler: function (response) {
-          alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-        },
-        prefill: {
-          name: "John Doe",
-          email: "johndoe@example.com",
-          contact: "9999999999",
-        },
-        theme: {
-          color: "#F37254",
-        },
-      };
-  
-      const rzp = new window.Razorpay(options); // ✅ Ensure Razorpay is loaded before calling this
-      rzp.open();
-    } catch (error) {
-      console.error("Payment Error:", error);
-      alert("Payment failed!");
-    }
   };
 
-  return (
-    <>
+    return (
+            <>
       <Navbar />
       <div className="checkout-container">
         {/* <div className="checkout"> */}
@@ -127,56 +104,65 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
         {/* </div> */}
       </div>
     </>
-  );
+    );
 };
 
-// const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
-//     const handleQuantityChange = (id, e) => {
-//         const quantity = parseInt(e.target.value);
-//         updateItemQuantity(id, quantity);
-//     };
-//     const navigate = useNavigate();
-//     const handleAccountClick = () => {
-//         navigate(`/account`);
-//     };
-
-//     const handleCheckout = () => {
-//         alert('Order placed successfully!');
-//     };
-
-//     return (
-//         <div className="checkout-wrapper">
-//             <Navbar />
-//             <div className="checkout-container">
-//                 <h2 className="checkout-title">Checkout</h2>
-//                 <ul style={{ listStyleType: 'none', padding: 0 }}>
-//                     {cartItems.map((item) => (
-//                         <li key={item.id} className="cart-item">
-//                             <span>{item.name} x </span>
-//                             <input
-//                                 type="number"
-//                                 value={item.quantity}
-//                                 onChange={(e) => handleQuantityChange(item.id, e)}
-//                                 min="1"
-//                                 className="quantity-input"
-//                             />
-//                             <span> ₹{item.price * item.quantity}</span>
-//                             <button onClick={() => removeFromCart(item.id)} className="remove-item-button">Remove</button>
-//                         </li>
-//                     ))}
-//                 </ul>
-//                 <hr />
-//                 <div className="cart-summary">
-//                     <h3>Cart Summary</h3>
-//                     <p>Items: {cartItems.length}</p>
-//                     <p>Total Bill: ₹{totalBill}</p>
-//                 </div>
-//                 <button onClick={handleCheckout} className="checkout-button">
-//                     Proceed to Payment
-//                 </button>
-//             </div>
-//         </div>
-//     );
-// };
-
 export default Cart;
+
+
+
+// const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
+//   const loadRazorpayScript = () => {
+//     return new Promise((resolve) => {
+//       const script = document.createElement("script");
+//       script.src = "https://checkout.razorpay.com/v1/checkout.js";
+//       script.onload = () => resolve(true);
+//       script.onerror = () => resolve(false);
+//       document.body.appendChild(script);
+//     });
+//   };
+  
+//   const handleCheckout = async () => {
+//     try {
+//       const scriptLoaded = await loadRazorpayScript();
+//       if (!scriptLoaded) {
+//         alert("Razorpay SDK failed to load. Make sure you are online.");
+//         return;
+//       }
+  
+//       const { data } = await axios.post("http://localhost:5000/api/payment/create-order", {
+//         amount: totalBill,
+//         currency: "INR",
+//       });
+  
+//       const options = {
+//         key: import.meta.env.VITE_RAZORPAY_KEY_ID, // ✅ Use Vite-compatible environment variable
+//         amount: data.order.amount,
+//         currency: data.order.currency,
+//         order_id: data.order.id,
+//         name: "Demo Payment",
+//         description: "Test Transaction",
+//         handler: function (response) {
+//           alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+//         },
+//         prefill: {
+//           name: "John Doe",
+//           email: "johndoe@example.com",
+//           contact: "9999999999",
+//         },
+//         theme: {
+//           color: "#F37254",
+//         },
+//       };
+  
+//       const rzp = new window.Razorpay(options); // ✅ Ensure Razorpay is loaded before calling this
+//       rzp.open();
+//     } catch (error) {
+//       console.error("Payment Error:", error);
+//       alert("Payment failed!");
+//     }
+//   };
+// return (
+
+// );
+// }

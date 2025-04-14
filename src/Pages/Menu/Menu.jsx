@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate ,useParams} from "react-router-dom";
-import axios from "axios";
 import "./Menu.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import vegpizza from "../../Assets/vegpizza.png";
@@ -15,7 +14,9 @@ const Menu = ({ addToCart }) => {
 
     useEffect(() => {
         // Fetch food items from the backend API
-        fetch("http://localhost:5000/api/items")
+        fetch("http://localhost:5000/api/items",{
+            credentials: 'include',
+        })
             .then((response) => response.json())
             .then((data) => {
                 setItems(data);
