@@ -6,7 +6,7 @@ import Home from "./Pages/Homepage/Homepage";
 import Menu from "./Pages/Menu/Menu";
 import Cart from "./Pages/Cart/Cart";
 import Account from "./Pages/account/Account";
-
+import './App.css';
 function App() {
   const [cartItems, setCartItems] = useState([]); // Cart items state
   const [totalBill, setTotalBill] = useState(0); // Total bill state
