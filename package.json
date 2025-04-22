@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-lex-runtime-v2": "^3.787.0",
     "@aws-sdk/client-s3": "^3.787.0",
     "@aws-sdk/client-transcribe": "^3.787.0",
     "aws-sdk": "^2.1692.0",

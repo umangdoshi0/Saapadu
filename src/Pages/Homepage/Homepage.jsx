@@ -7,6 +7,7 @@ import northsquare from "../../Assets/northsquare.jpeg";
 import aavin from "../../Assets/aavin.png";
 import gazebo from "../../Assets/gazebo1.png";
 import lassihouse from "../../Assets/lassihouse.png";
+import LexChat from "../../Components/lex_bot/Lex_Chat";
 
 function Homepage() {
   const cafesRef = useRef(null);
@@ -41,6 +42,7 @@ function Homepage() {
   return (
     <>
       <Navbar />
+      <LexChat/>
       <div className="cafes-list">
         <h1>Top Restaurants</h1>
         <div className="cafes-cont-wrapper">
