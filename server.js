@@ -41,6 +41,7 @@ app.use(session({
 // Configure multer for handling file uploads
 const upload = multer({ dest: 'uploads/' }); // or use memoryStorage if you want to skip saving to disk
 
+
 // AWS Configuration
 AWS.config.update({
   region: 'ap-south-1',
