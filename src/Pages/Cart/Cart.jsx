@@ -8,7 +8,7 @@ import vegpizza from "../../Assets/vegpizza.png";
 const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
     const handleCheckout = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/checkout/send-email", {
+        const res = await fetch("http://13.235.128.132:5000/api/checkout/send-email", {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
@@ -21,11 +21,6 @@ const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
         });
 
         const data = await res.json();
-          // const res = await fetch("http://localhost:5000/api/checkout/send-email", {
-          //     method: "POST",
-          //     credentials: "include", // important for session to work
-          // });
-          // const data = await res.json();
   
           if (res.ok) {
               alert("Order placed successfully! A confirmation email has been sent.");
