@@ -11,7 +11,6 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Use useNavigate for redirection
-  const API = import.meta.env.VITE_API_BASE_URL;
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -25,7 +24,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch(`${API}/api/register`, {
+      const response = await fetch(" https://eaaa-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/register", {
         // Make sure the URL is correct
         method: "POST",
         headers: {

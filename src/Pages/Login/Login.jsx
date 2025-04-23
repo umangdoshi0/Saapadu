@@ -19,11 +19,10 @@ const Login = () => {
             setError('Please fill in all fields');
             return;
         }
-        const API = import.meta.env.VITE_API_BASE_URL;
 
         setLoading(true);
         try {
-            const response = await fetch(`${API}/api/login`, {
+            const response = await fetch(' https://eaaa-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

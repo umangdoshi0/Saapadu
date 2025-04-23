@@ -13,10 +13,9 @@ function Homepage() {
   const cafesRef = useRef(null);
   const navigate = useNavigate();
   const [cafes, setCafes] = useState([]);
-  const API = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
-    fetch(`${API}/api/cafes`,{
+    fetch(" https://eaaa-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/cafes",{
       credentials: 'include',
     })
       .then((response) => response.json())

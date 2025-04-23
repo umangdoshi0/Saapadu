@@ -49,9 +49,8 @@ function Navbar() {
     formData.append("audio", audioBlob);
 
     setIsLoading(true);
-    const API = import.meta.env.VITE_API_BASE_URL;
     try {
-      const response = await fetch(`${API}/api/transcribe`, {
+      const response = await fetch(" https://eaaa-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/transcribe", {
         method: "POST",
         body: formData,
         credentials: 'include',

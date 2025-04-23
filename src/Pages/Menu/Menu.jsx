@@ -16,7 +16,7 @@ const Menu = ({ addToCart }) => {
 
     useEffect(() => {
         // Fetch food items from the backend API
-        fetch(`${API}/api/items`,{
+        fetch(" https://eaaa-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/items",{
             credentials: 'include',
         })
             .then((response) => response.json())
