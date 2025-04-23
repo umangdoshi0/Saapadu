@@ -11,10 +11,12 @@ const Menu = ({ addToCart }) => {
     const [quantities, setQuantities] = useState({});
     const navigate = useNavigate();
     const {cafeId} = useParams(); //get menuItems
+    const API = import.meta.env.VITE_API_BASE_URL;
+
 
     useEffect(() => {
         // Fetch food items from the backend API
-        fetch("http://localhost:5000/api/items",{
+        fetch(`${API}/api/items`,{
             credentials: 'include',
         })
             .then((response) => response.json())

@@ -7,8 +7,9 @@ import vegpizza from "../../Assets/vegpizza.png";
 
 const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
     const handleCheckout = async () => {
+      const API = import.meta.env.VITE_API_BASE_URL;
       try {
-        const res = await fetch("http://localhost:5000/api/checkout/send-email", {
+        const res = await fetch(`${API}/api/checkout/send-email`, {
           method: "POST",
           headers: {
               "Content-Type": "application/json"

@@ -19,10 +19,11 @@ const Login = () => {
             setError('Please fill in all fields');
             return;
         }
+        const API = import.meta.env.VITE_API_BASE_URL;
 
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:5000/api/login', {
+            const response = await fetch(`${API}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

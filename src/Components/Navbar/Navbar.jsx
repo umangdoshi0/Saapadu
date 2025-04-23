@@ -49,8 +49,9 @@ function Navbar() {
     formData.append("audio", audioBlob);
 
     setIsLoading(true);
+    const API = import.meta.env.VITE_API_BASE_URL;
     try {
-      const response = await fetch("http://localhost:5000/api/transcribe", {
+      const response = await fetch(`${API}/api/transcribe`, {
         method: "POST",
         body: formData,
         credentials: 'include',

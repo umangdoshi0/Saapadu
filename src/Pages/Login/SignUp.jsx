@@ -11,6 +11,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Use useNavigate for redirection
+  const API = import.meta.env.VITE_API_BASE_URL;
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -24,7 +25,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/register", {
+      const response = await fetch(`${API}/api/register`, {
         // Make sure the URL is correct
         method: "POST",
         headers: {

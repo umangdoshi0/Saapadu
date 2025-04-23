@@ -13,9 +13,10 @@ function Homepage() {
   const cafesRef = useRef(null);
   const navigate = useNavigate();
   const [cafes, setCafes] = useState([]);
+  const API = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/cafes",{
+    fetch(`${API}/api/cafes`,{
       credentials: 'include',
     })
       .then((response) => response.json())

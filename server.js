@@ -21,7 +21,7 @@ const app = express();
 
 // CORS Middleware
 const corsOptions = {
-    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    origin: ['http://localhost:5173', 'http://localhost:3000','https://main.d10ffr7u91gvaz.amplifyapp.com'],
     methods: ['GET', 'POST'],
     credentials: true,
 };
@@ -32,11 +32,12 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { 
-      secure: false,
+      secure: true,
       httpOnly: true,
-      sameSite: 'lax'
+      sameSite: 'None'
      }
 }));
+app.set('trust proxy', 1);
 
 // Configure multer for handling file uploads
 const upload = multer({ dest: 'uploads/' }); // or use memoryStorage if you want to skip saving to disk
