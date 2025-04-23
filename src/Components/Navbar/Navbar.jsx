@@ -50,7 +50,7 @@ function Navbar() {
 
     setIsLoading(true);
     try {
-      const response = await fetch("http://13.235.128.132:5000/transcribe", {
+      const response = await fetch("http://localhost:5000/transcribe", {
         method: "POST",
         body: formData,
         credentials: 'include',

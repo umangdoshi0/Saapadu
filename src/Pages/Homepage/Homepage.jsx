@@ -15,7 +15,7 @@ function Homepage() {
   const [cafes, setCafes] = useState([]);
 
   useEffect(() => {
-    fetch("http://13.235.128.132:5000/api/cafes",{
+    fetch("http://localhost:5000/api/cafes",{
       credentials: 'include',
     })
       .then((response) => response.json())

@@ -21,7 +21,7 @@ const app = express();
 
 // CORS Middleware
 const corsOptions = {
-    origin: ['http://localhost:5173', 'http://localhost:3000', 'https://dtcax0zpp4afw.cloudfront.net'],
+    origin: ['http://localhost:5173', 'http://localhost:3000'],
     methods: ['GET', 'POST'],
     credentials: true,
 };
@@ -346,8 +346,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "dist")));
 
-// app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "dist", "index.html"));
-// });
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+});

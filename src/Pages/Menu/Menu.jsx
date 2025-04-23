@@ -14,7 +14,7 @@ const Menu = ({ addToCart }) => {
 
     useEffect(() => {
         // Fetch food items from the backend API
-        fetch("http://13.235.128.132:5000/api/items",{
+        fetch("http://localhost:5000/api/items",{
             credentials: 'include',
         })
             .then((response) => response.json())
