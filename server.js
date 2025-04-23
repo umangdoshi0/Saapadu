@@ -122,7 +122,7 @@ const s3 = new AWS.S3();
 const transcribeService = new AWS.TranscribeService();
 
 // POST /transcribe endpoint
-app.post('/transcribe', upload.single('audio'), async (req, res) => {
+app.post('/api/transcribe', upload.single('audio'), async (req, res) => {
     try {
       const audioFilePath = req.file.path;
       const fileContent = fs.readFileSync(audioFilePath);
@@ -213,7 +213,7 @@ const User = mongoose.model('logininfos', new mongoose.Schema({
 }));
 
 // User Registration Route
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
     const { name, email, number, regNo, password } = req.body;
     try {
         const userExists = await User.findOne({ regNo });
@@ -231,7 +231,7 @@ app.post('/register', async (req, res) => {
 });
 
 // User Login Route
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { regNo, password } = req.body;
     try {
         const user = await User.findOne({ regNo });
