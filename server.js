@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
@@ -42,6 +42,7 @@ app.set('trust proxy', 1);
 // Configure multer for handling file uploads
 const upload = multer({ dest: 'uploads/' }); // or use memoryStorage if you want to skip saving to disk
 
+const ses = new AWS.SES({ region: "ap-south-1" });
 
 // AWS Configuration
 AWS.config.update({
@@ -50,17 +51,26 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
+// ===== Dedicated DynamoDB Client with Separate IAM User =====
+const dynamoDBClient = new AWS.DynamoDB.DocumentClient({
+  region: "ap-south-1",
+  KeyId: process.env.AWS_ACCESS_KEY_USER2,
+  AccessKey: process.env.AWS_SECRET_ACCESS_KEY_USER2
+});
+
 app.post("/api/checkout/send-email", async (req, res) => {
-  if (!req.session.regNo) {
-      return res.status(401).json({ error: "User not logged in" });
-  }
+  if (!req.session.regNo) return res.status(401).json({ error: "User not logged in" });
 
   try {
-      // Find the user using regNo stored in session
-      const user = await User.findOne({ regNo: req.session.regNo });
-      if (!user || !user.email) {
-          return res.status(404).json({ error: "User or email not found" });
-      }
+    const params = {
+      TableName: "LoginInfos",
+      FilterExpression: "regNo = :reg",
+      ExpressionAttributeValues: { ":reg": req.session.regNo }
+    };
+    const data = await dynamoDBClient.scan(params).promise();
+    const user = data.Items[0];
+
+    if (!user || !user.email) return res.status(404).json({ error: "User or email not found" });
 
 
       const { cartItems, totalBill } = req.body;
@@ -86,31 +96,14 @@ Best,
 Café App Team
         `;
 
-      // Prepare SES client
-      const ses = new AWS.SES({ region: 'ap-south-1' });
-
-      // Send the email
-      const params = {
-          Destination: {
-              ToAddresses: [user.email],
-          },
+        await ses.sendEmail({
+          Destination: { ToAddresses: [user.email] },
           Message: {
-              Body: {
-                  Text: {
-                      Charset: "UTF-8",
-                      Data: emailBody,
-                      // Data: `Hello ${user.name},\n\nYour order has been placed successfully!\n\nThank you for shopping with us. 😄`,
-                  },
-              },
-              Subject: {
-                  Charset: 'UTF-8',
-                  Data: 'Order Confirmation - Your Order is Placed!',
-              },
+            Body: { Text: { Charset: "UTF-8", Data: emailBody } },
+            Subject: { Charset: "UTF-8", Data: "Order Confirmation" }
           },
-          Source: process.env.SES_VERIFIED_EMAIL, // must be verified in SES
-      };
-
-      await ses.sendEmail(params).promise();
+          Source: process.env.SES_VERIFIED_EMAIL
+        }).promise();
 
       return res.status(200).json({ message: "Email sent successfully" });
   } catch (err) {
@@ -187,135 +180,114 @@ app.post('/api/transcribe', upload.single('audio'), async (req, res) => {
 // Start Server
 const startServer = async () => {
     try {
-        if (!process.env.MONGO_URI) {
-            console.error("Missing MongoDB connection string!");
-            process.exit(1);
-        }
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log('Connected to MongoDB');
         const PORT = process.env.PORT || 5000;
         app.listen(PORT , '0.0.0.0', () => {
             console.log(`Server is running on port ${PORT}`);
         });
     } catch (err) {
-        console.error('Error connecting to MongoDB:', err);
+        console.error('Connection Error', err);
         process.exit(1);
     }
 };
 startServer();
 
-// MongoDB User Model
-const User = mongoose.model('logininfos', new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    number: { type: String, required: true, unique: true },
-    regNo: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-}));
+// ===== User Registration =====
+app.post("/api/register", async (req, res) => {
+  const { name, email, number, regNo, password } = req.body;
+  try {
+    const params = {
+      TableName: "LoginInfos",
+      FilterExpression: "regNo = :reg",
+      ExpressionAttributeValues: { ":reg": regNo }
+    };
 
-// User Registration Route
-app.post('/api/register', async (req, res) => {
-    const { name, email, number, regNo, password } = req.body;
-    try {
-        const userExists = await User.findOne({ regNo });
-        if (userExists) return res.status(400).json({ error: 'Reg. No. already exists' });
+    const data = await dynamoDBClient.scan(params).promise();
+    if (data.Items.length > 0) return res.status(400).json({ error: 'Reg. No. already exists' });
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ name, email, number, regNo, password: hashedPassword });
-        await newUser.save();
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userId = uuidv4();
 
-        return res.status(201).json({ message: 'User registered successfully' });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Server error' });
-    }
+    await dynamoDBClient.put({
+      TableName: "LoginInfos",
+      Item: { userId, name, email, number, regNo, password: hashedPassword }
+    }).promise();
+
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error'});
+}
 });
 
 // User Login Route
-app.post('/api/login', async (req, res) => {
-    const { regNo, password } = req.body;
-    try {
-        const user = await User.findOne({ regNo });
-        if (!user) return res.status(400).json({ error: 'Invalid Username' });
+// ===== User Login =====
+app.post("/api/login", async (req, res) => {
+  const { regNo, password } = req.body;
+  try {
+    const params = {
+      TableName: "LoginInfos",
+      FilterExpression: "regNo = :reg",
+      ExpressionAttributeValues: { ":reg": regNo }
+    };
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ error: 'Invalid Password' });
+    const data = await dynamoDBClient.scan(params).promise();
+    if (data.Items.length === 0) return res.status(400).json({ error: 'Invalid Username' });
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        req.session.regNo = regNo;
+    const user = data.Items[0];
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ error: 'Invalid Password' });
 
-        return res.status(200).json({ message: 'Login successful', token });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Server error' });
-    }
+    const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    req.session.regNo = regNo;
+
+    res.status(200).json({ message: 'Login successful', token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error'});
+}
 });
 
-// MongoDB Cafe Model
-// const Cafes = mongoose.model('cafes', new mongoose.Schema({
-//     name: String,
-//     image: String,
-//     category:[String]
-// }));
-// app.get('/api/cafes', async (req, res) => {
-//     console.log("Fetching cafe...");
-//     try {
-//         const cafe = await Cafes.find();
-//         res.json(cafe);
-//     } catch (error) {
-//         console.error("Error fetching data:", error);
-//         res.status(500).send("Server Error");
-//     }
-// });
-
-
-// MongoDB Menu Model
-const Menu = mongoose.model('fooditems', new mongoose.Schema({
-    name: String,
-    price: Number,
-    rating: Number,
-    category : String,
-    cafeId: String,
-    reviews: Number,
-    description: String,
-    image: String
-}));
+// ===== Fetch Cafes =====
+app.get('/api/cafes', async (req, res) => {
+  try {
+    const params = { TableName: "Cafes" };
+    const data = await dynamoDBClient.scan(params).promise();
+    res.json(data.Items);
+  } catch (error) {
+    console.error("Error fetching cafes:", error);
+    res.status(500).send("Server Error");
+  }
+});
 
 // Fetch All Food Items Route
-app.get('/api/items', async (req, res) => {
-    
-    try {
-        // const {cafeId} = req.params;
-        // console.log("Recieved cafeId :" , cafeId);
-        console.log("Fetching food items...");
-
-        const items = await Menu.find();
-
-        // console.log("Fetched menu Items:" , items);
-        res.json(items);
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        res.status(500).send("Server Error");
-    }
+app.get("/api/items", async (req, res) => {
+  try {
+    const params = { TableName: "FoodItems" };
+    const data = await dynamoDBClient.scan(params).promise();
+    res.json(data.Items);
+  } catch (error) {
+    console.error("Error fetching food items:", error);
+    res.status(500).send("Server Error");
+  }
 });
 
 // get account details
-app.get('/api/account', async (req, res) => {
-    if (!req.session.regNo) {
-        return res.status(401).json({ error: 'User not authenticated' });
-    }
+// app.get('/api/account', async (req, res) => {
+//     if (!req.session.regNo) {
+//         return res.status(401).json({ error: 'User not authenticated' });
+//     }
     
-    try {
-        const user = await User.findOne({ regNo: req.session.regNo });
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        res.json({ user });
-    } catch (error) {
-        console.error("Error fetching user:", error);
-        res.status(500).json({ error: "Server error" });
-    }
-});
+//     try {
+//         const user = await User.findOne({ regNo: req.session.regNo });
+//         if (!user) {
+//             return res.status(404).json({ error: 'User not found' });
+//         }
+//         res.json({ user });
+//     } catch (error) {
+//         console.error("Error fetching user:", error);
+//         res.status(500).json({ error: "Server error" });
+//     }
+// });
 
 
 
