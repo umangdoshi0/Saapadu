@@ -6,8 +6,8 @@ import {
 import "./Lex_Chat.css";
 
 const client = new LexRuntimeV2Client({
+  region: "us-east-1",
   credentials: {
-    region: import.meta.env.VITE_LEX_REGION,
     accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_USER2,
     secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY_USER2,
   },
