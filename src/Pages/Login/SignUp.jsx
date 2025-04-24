@@ -24,7 +24,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch(" https://eaaa-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/register", {
+      const response = await fetch("https://b3db-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/register", {
         // Make sure the URL is correct
         method: "POST",
         headers: {

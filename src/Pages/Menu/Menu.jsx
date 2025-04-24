@@ -13,7 +13,7 @@ const Menu = ({ addToCart }) => {
     const { cafeId } = useParams();
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/items", { credentials: 'include' })  // Dynamic URL for deployment
+        fetch("https://b3db-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/items", { credentials: 'include' })  // Dynamic URL for deployment
             .then((response) => response.json())
             .then((data) => {
                 setItems(data);

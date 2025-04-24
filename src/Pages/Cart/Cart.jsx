@@ -7,7 +7,7 @@ import vegpizza from "../../Assets/vegpizza.png";
 const Cart = ({ cartItems, totalBill, removeFromCart, updateItemQuantity }) => {
     const handleCheckout = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/checkout/send-email", {   
+            const res = await fetch("https://b3db-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/checkout/send-email", {   
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",

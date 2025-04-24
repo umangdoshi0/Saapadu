@@ -26,7 +26,14 @@ const corsOptions = {
     credentials: true,
 };
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.static('public', { 
+  setHeaders: function (res, path) {
+    if (path.endsWith('.js')) {
+      res.set('Content-Type', 'application/javascript');
+    }
+  }
+}));
+app.set('trust proxy', 1);
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your_session_secret',
     resave: false,
@@ -37,7 +44,6 @@ app.use(session({
       sameSite: 'None'
      }
 }));
-app.set('trust proxy', 1);
 
 // Configure multer for handling file uploads
 const upload = multer({ dest: 'uploads/' }); // or use memoryStorage if you want to skip saving to disk

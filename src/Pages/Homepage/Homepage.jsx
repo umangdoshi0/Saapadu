@@ -15,7 +15,7 @@ function Homepage() {
   const [cafes, setCafes] = useState([]);
 
   useEffect(() => {
-    fetch(" https://eaaa-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/cafes",{
+    fetch("https://b3db-2405-201-e024-5178-dcfa-3a56-7334-2964.ngrok-free.app/api/cafes",{
       credentials: 'include',
     })
       .then((response) => response.json())
