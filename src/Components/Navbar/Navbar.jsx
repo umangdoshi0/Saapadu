@@ -50,7 +50,7 @@ function Navbar() {
 
     setIsLoading(true);
     try {
-      const response = await fetch("https://b7f4-2409-40f4-19-e795-6de0-7c5c-e1a0-23f7.ngrok-free.app/api/transcribe", {
+      const response = await fetch("https://0de6-2409-40f4-a8-fc76-e082-9733-8f53-a656.ngrok-free.app/api/transcribe", {
         method: "POST",
         body: formData,
         credentials: 'include',
